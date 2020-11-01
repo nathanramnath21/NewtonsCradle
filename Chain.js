@@ -14,7 +14,11 @@ class Chain{
             var pointA = this.chain.bodyA.position;
         var pointB = this.chain.bodyB.position;        
         strokeWeight(4);
-        line(pointA.x,pointA.y,pointB.x,pointB.y);
+        var anker1x=pointA.x
+        var anker1y = pointA.y
+        var anker2x=pointB.x+this.offsetX
+        var anker2y=pointB.y+this.offsetY
+        line(anker1x,anker1y,anker2x,anker2y);
         }
         
     }
