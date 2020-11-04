@@ -3,7 +3,9 @@ const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Body = Matter.Body;
-const Constraint = Matter.Constraint
+const Constraint = Matter.Constraint;
+const Render = Matter.Render;
+
 var roof, bob1, bob2, bob3, bob4, bob5;
 var rope1, rope2, rope3, rope4, rope5, bobDiameter;
 function preload()
@@ -12,25 +14,40 @@ function preload()
 }
 
 function setup() {
-	createCanvas(800,700);
+	createCanvas(windowWidth,700);
 
 
 	engine = Engine.create();
 	world = engine.world;
 	bobDiameter=100;
 
+	startBobPositionX=width/2;
+	startBobPositionY=height/4+300;
+
 	//Create the Bodies Here.
-	roof = new Roof(400,100,700,50)
-	bob1 = new Bob(150,500,bobDiameter)
-	bob2 = new Bob(250,500,bobDiameter)
-	bob3 = new Bob(350,500,bobDiameter)
-	bob4 = new Bob(450,500,bobDiameter)
-	bob5 = new Bob(550,500,bobDiameter)
-	rope1 = new Chain(bob1.body,roof.body,-1*20-200, 0)
-	rope2 = new Chain(bob2.body,roof.body,-1*20-100, 0)
-	rope3 = new Chain(bob3.body,roof.body,-1*20-0, 0)
-	rope4 = new Chain(bob4.body,roof.body,-1*20+100, 0)
-	rope5 = new Chain(bob5.body,roof.body,-1*20+200, 0)
+	roof = new Roof(width/2,height/4,width/3,20);
+	bob1 = new Bob(startBobPositionX-bobDiameter*2,startBobPositionY,bobDiameter)
+	bob2 = new Bob(startBobPositionX-bobDiameter,startBobPositionY,bobDiameter)
+	bob3 = new Bob(startBobPositionX,startBobPositionY,bobDiameter)
+	bob4 = new Bob(startBobPositionX+bobDiameter,startBobPositionY,bobDiameter)
+	bob5 = new Bob(startBobPositionX+bobDiameter*2,startBobPositionY,bobDiameter)
+	rope1 = new Chain(bob1.body,roof.body,-bobDiameter*2, 0)
+	rope2 = new Chain(bob2.body,roof.body,-bobDiameter*1, 0)
+	rope3 = new Chain(bob3.body,roof.body,0, 0)
+	rope4 = new Chain(bob4.body,roof.body,bobDiameter*1, 0)
+	rope5 = new Chain(bob5.body,roof.body,bobDiameter*2, 0);
+
+
+	var render = Render.create({
+		element: document.body,
+		engine: engine,
+		options: {
+		  width: 1200,
+		  height: 700,
+		  wireframes: false
+		}
+	  });
+
 	Engine.run(engine);
   
 }
@@ -56,5 +73,10 @@ function draw() {
 }
 
 function keyPressed() 
-{ if (keyCode === UP_ARROW){
-	Matter.Body.applyForce(bob1.body,bob1.body.position,{x:-50,y:-45})}}
+{ 
+	if (keyCode === UP_ARROW){
+	Matter.Body.applyForce(bob1.body,bob1.body.position,{x:-200,y:-50})
+}
+}
+
+
